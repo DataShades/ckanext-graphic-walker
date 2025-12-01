@@ -20,9 +20,6 @@ const DataSelection: React.FC<{ commonStore: CommonStore }> = (props) => {
                     <TabsContent value="file">
                         <CSVData commonStore={commonStore} />
                     </TabsContent>
-                    <TabsContent value="public">
-                        <PublicData commonStore={commonStore} />
-                    </TabsContent>
                 </Tabs>
             </div>
         </div>

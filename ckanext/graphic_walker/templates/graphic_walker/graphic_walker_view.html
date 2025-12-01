@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block subtitle %}{% endblock %}
+
+{% block page %}
+    <div id="root" data-url="{{ resource_view.file_url or resource.url }}">
+    </div>
+
+    {% asset 'graphic_walker/graphic_walker-js' %}
+    {% asset 'graphic_walker/graphic_walker-css' %}
+{% endblock %}

@@ -1,0 +1,14 @@
+graphic_walker-js:
+  filter: rjsmin
+  output: ckanext-graphic_walker/%(version)s-graphic_walker.js
+  contents:
+    - js/graphic-walker.min.js
+  extra:
+    preload:
+      - base/main
+
+# graphic_walker-css:
+#   filter: cssrewrite
+#   output: ckanext-graphic_walker/%(version)s-graphic_walker.css
+#   contents:
+#     - css/graphic_walker.css

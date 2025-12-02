@@ -18,6 +18,7 @@ function FullGraphicWalker(props: IGWProps) {
             vizThemeConfig={props.vizThemeConfig}
             colorConfig={props.colorConfig}
             uiTheme={props.uiTheme}
+            ckanResourceUrl={props.ckanResourceUrl}
         >
             {(p) => {
                 return <GraphicWalker {...props} storeRef={p.storeRef} computation={p.computation} rawFields={p.meta} onMetaChange={p.onMetaChange} />;

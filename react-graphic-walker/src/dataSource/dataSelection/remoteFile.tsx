@@ -9,10 +9,11 @@ import { charsetOptions } from './config';
 
 interface IRemoteDataProps {
     commonStore: CommonStore;
+    ckanResourceUrl?: string;
 }
 
-const RemoteData: React.FC<IRemoteDataProps> = ({ commonStore }) => {
-    const { tmpDataSource } = commonStore;
+const RemoteData: React.FC<IRemoteDataProps> = ({ commonStore, ckanResourceUrl }) => {
+    // const { tmpDataSource } = commonStore;
     const inputRef = React.useRef<HTMLInputElement>(null);
     const { t } = useTranslation('translation', { keyPrefix: 'DataSource.dialog.remote' });
 
@@ -74,17 +75,14 @@ const RemoteData: React.FC<IRemoteDataProps> = ({ commonStore }) => {
                 offset += chunk.length;
             }
 
-            // --- Convert streamed bytes → Blob → File ---
-            // We default to csv for now as per original code logic, but we could detect extension from URL if needed.
             const blob = new Blob([full], { type: 'text/csv' });
             const fakeFile = new File([blob], "remote.csv", { type: 'text/csv' });
 
-            // --- Use the SAME CSV parser as CSVData ---
             const data = await CSVFileReader.csvReader({
                 file: fakeFile,
                 config: { type: 'reservoirSampling', size: Infinity },
-                encoding: encoding // Use selected encoding
-            });
+                encoding: encoding
+            }) as any;
 
             commonStore.updateTempDS(data);
             commonStore.commitTempDS();
@@ -99,6 +97,21 @@ const RemoteData: React.FC<IRemoteDataProps> = ({ commonStore }) => {
 
     return (
         <div>
+            {ckanResourceUrl && (
+                <div className="mb-4 p-3 border rounded bg-muted/50">
+                    <p className="text-xs text-muted-foreground mb-2">
+                        {t('ckan_resource_available')}
+                    </p>
+                    <Button
+                        className="w-full"
+                        disabled={downloading}
+                        onClick={() => downloadRemoteFile(ckanResourceUrl)}
+                    >
+                        {downloading ? t('downloading') : (t('load_ckan_resource'))}
+                    </Button>
+                </div>
+            )}
+
             <div className="flex gap-2 mb-2">
                 <input
                     ref={inputRef}

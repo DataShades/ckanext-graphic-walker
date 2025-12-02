@@ -5,8 +5,8 @@ import { useTranslation } from 'react-i18next';
 import { CommonStore } from '../../store/commonStore';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-const DataSelection: React.FC<{ commonStore: CommonStore }> = (props) => {
-    const { commonStore } = props;
+const DataSelection: React.FC<{ commonStore: CommonStore; ckanResourceUrl?: string }> = (props) => {
+    const { commonStore, ckanResourceUrl } = props;
     const { t } = useTranslation('translation', { keyPrefix: 'DataSource' });
 
     return (
@@ -21,7 +21,7 @@ const DataSelection: React.FC<{ commonStore: CommonStore }> = (props) => {
                         <CSVData commonStore={commonStore} />
                     </TabsContent>
                     <TabsContent value="remote">
-                        <RemoteData commonStore={commonStore} />
+                        <RemoteData commonStore={commonStore} ckanResourceUrl={ckanResourceUrl} />
                     </TabsContent>
                 </Tabs>
             </div>

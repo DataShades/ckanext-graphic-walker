@@ -23,6 +23,7 @@ interface DSSegmentProps {
     onSelectId: (value: string) => void;
     onSave?: () => Promise<Blob>;
     onLoad?: (file: File) => void;
+    ckanResourceUrl?: string;
 }
 
 const DataSourceSegment: React.FC<DSSegmentProps> = observer((props) => {
@@ -34,9 +35,6 @@ const DataSourceSegment: React.FC<DSSegmentProps> = observer((props) => {
     return (
         <div className="font-sans gap-2 flex flex-wrap items-center p-4 border rounded-md">
             {props.onLoad && <GwFile onImport={props.onLoad} fileRef={gwFileRef} />}
-            {/* <label className="text-xs mr-1 whitespace-nowrap self-center h-4">
-                {t("DataSource.labels.cur_dataset")}
-            </label> */}
             <div>
                 <DropdownSelect
                     className="text-xs !h-8"
@@ -90,7 +88,7 @@ const DataSourceSegment: React.FC<DSSegmentProps> = observer((props) => {
                     <DialogHeader>
                         <DialogTitle>{t('DataSource.dialog.create_data_source')}</DialogTitle>
                     </DialogHeader>
-                    <DataSelection commonStore={commonStore} />
+                    <DataSelection commonStore={commonStore} ckanResourceUrl={props.ckanResourceUrl} />
                 </DialogContent>
             </Dialog>
         </div>
@@ -123,6 +121,7 @@ export function DataSourceSegmentComponent(props: {
     /** @deprecated renamed to uiTheme */
     colorConfig?: IUIThemeConfig;
     uiTheme?: IUIThemeConfig;
+    ckanResourceUrl?: string;
     children: (props: {
         meta: IMutField[];
         onMetaChange: (fid: string, meta: Partial<IMutField>) => void;
@@ -260,6 +259,7 @@ export function DataSourceSegmentComponent(props: {
                             selectedId={selectedId}
                             onLoad={onLoad}
                             onSave={onSave}
+                            ckanResourceUrl={props.ckanResourceUrl}
                         />
                         <div ref={setPortal} />
                     </div>

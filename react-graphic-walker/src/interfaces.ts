@@ -982,6 +982,8 @@ export type IGWProps = IAppI18nProps &
     IErrorHandlerProps & {
         storeRef?: React.RefObject<CommonStore | null>;
         keepAlive?: boolean | string;
+        ckanResourceUrl?: string;
+        style?: React.CSSProperties;
     };
 
 export interface ISpecProps {

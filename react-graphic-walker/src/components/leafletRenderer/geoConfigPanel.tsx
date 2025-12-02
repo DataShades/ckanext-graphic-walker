@@ -11,6 +11,7 @@ import { Button } from '../ui/button';
 import { Dialog, DialogContent, DialogFooter } from '../ui/dialog';
 import { Input } from '../ui/input';
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
+import { DialogTitle } from '@radix-ui/react-dialog';
 
 const emptyList = [];
 
@@ -128,7 +129,7 @@ const GeoConfigPanel = ({ geoList = emptyList }: { geoList?: IGeoDataItem[] }) =
             }}
         >
             <DialogContent>
-                <h2 className="text-lg mb-4">{t('geography')}</h2>
+                <DialogTitle>{t('geography')}</DialogTitle>
                 <div>
                     <div className="my-2">
                         <label className="block text-xs font-medium leading-6">{t('geography_settings.geoKey')}</label>

@@ -1,6 +1,6 @@
 import React from 'react';
 import CSVData from './csvData';
-import PublicData from './publicData';
+import RemoteData from './remoteFile';
 import { useTranslation } from 'react-i18next';
 import { CommonStore } from '../../store/commonStore';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -15,10 +15,13 @@ const DataSelection: React.FC<{ commonStore: CommonStore }> = (props) => {
                 <Tabs defaultValue="file">
                     <TabsList>
                         <TabsTrigger value="file">{t('dialog.text_file_data')}</TabsTrigger>
-                        <TabsTrigger value="public">{t('dialog.public_data')}</TabsTrigger>
+                        <TabsTrigger value="remote">{t('dialog.remote_file_data')}</TabsTrigger>
                     </TabsList>
                     <TabsContent value="file">
                         <CSVData commonStore={commonStore} />
+                    </TabsContent>
+                    <TabsContent value="remote">
+                        <RemoteData commonStore={commonStore} />
                     </TabsContent>
                 </Tabs>
             </div>

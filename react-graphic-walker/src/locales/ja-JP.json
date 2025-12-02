@@ -169,7 +169,6 @@
             "create_data_source": "新しいデータソース",
             "data_types": "データソースの種類",
             "text_file_data": "ローカルファイル",
-            "public_data": "公開データセット",
             "data_source_type": "データソースの種類：{{sourceType}}",
             "file": {
                 "open": "開く...",

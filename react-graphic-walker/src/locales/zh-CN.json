@@ -175,7 +175,6 @@
             "create_data_source": "创建数据源",
             "data_types": "选择类型",
             "text_file_data": "导入文件",
-            "public_data": "公共数据集",
             "data_source_type": "数据源类型：{{sourceType}}",
             "file": {
                 "open": "打开文件...",

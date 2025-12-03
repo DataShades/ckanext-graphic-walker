@@ -169,6 +169,7 @@
             "create_data_source": "新しいデータソース",
             "data_types": "データソースの種類",
             "text_file_data": "ローカルファイル",
+            "remote_file_data": "リモートファイル",
             "data_source_type": "データソースの種類：{{sourceType}}",
             "file": {
                 "open": "開く...",
@@ -179,6 +180,19 @@
             },
             "public": {
                 "submit": "提出する"
+            },
+            "remote": {
+                "submit": "提出する",
+                "download": "ダウンロード",
+                "dataset_name": "データセット名",
+                "url_placeholder": "ファイルのURLを入力してください",
+                "unsupported_format": "サポートされていないファイル形式です。有効なCSVまたはJSONファイルのURLを提供してください。",
+                "fetch_error": "データの取得に失敗しました（ステータス：{{status}}）。URLを確認して再試行してください。",
+                "fetch_failed": "提供されたURLからデータを取得できませんでした。URLを確認して再試行してください。",
+                "file_too_large": "ファイルサイズが最大制限{{maxSize}}を超えています。より小さいファイルを提供してください。",
+                "ckan_resource_available": "CKANリソースが利用可能です",
+                "downloading": "ダウンロード中...",
+                "load_ckan_resource": "CKANリソースを読み込む"
             }
         }
     },

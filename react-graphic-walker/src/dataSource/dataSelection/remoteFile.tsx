@@ -1,11 +1,13 @@
 import { useTranslation } from 'react-i18next';
 import { observer } from 'mobx-react-lite';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { FileReader as CSVFileReader } from '@kanaries/web-data-loader';
 import { CommonStore } from '../../store/commonStore';
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import DropdownSelect from '../../components/dropdownSelect';
 import { charsetOptions } from './config';
+import Table from '../table';
 
 interface IRemoteDataProps {
     commonStore: CommonStore;
@@ -13,7 +15,7 @@ interface IRemoteDataProps {
 }
 
 const RemoteData: React.FC<IRemoteDataProps> = ({ commonStore, ckanResourceUrl }) => {
-    // const { tmpDataSource } = commonStore;
+    const { tmpDSName, tmpDataSource, tmpDSRawFields } = commonStore;
     const inputRef = React.useRef<HTMLInputElement>(null);
     const { t } = useTranslation('translation', { keyPrefix: 'DataSource.dialog.remote' });
 
@@ -23,6 +25,8 @@ const RemoteData: React.FC<IRemoteDataProps> = ({ commonStore, ckanResourceUrl }
     const [error, setError] = useState<string | null>(null);
 
     const MAX_SIZE = 10 * 1024 * 1024; // 10 MB
+
+    const fileLoaded = tmpDataSource.length > 0 && tmpDSRawFields.length > 0;
 
     const downloadRemoteFile = async (url: string) => {
         setDownloading(true);
@@ -84,8 +88,8 @@ const RemoteData: React.FC<IRemoteDataProps> = ({ commonStore, ckanResourceUrl }
                 encoding: encoding
             }) as any;
 
+            // Only update temp data, don't commit yet (preview mode)
             commonStore.updateTempDS(data);
-            commonStore.commitTempDS();
 
         } catch (error: any) {
             console.error("Error fetching remote file:", error);
@@ -95,9 +99,13 @@ const RemoteData: React.FC<IRemoteDataProps> = ({ commonStore, ckanResourceUrl }
         }
     };
 
+    const onSubmitData = useCallback(() => {
+        commonStore.commitTempDS();
+    }, [commonStore]);
+
     return (
-        <div>
-            {ckanResourceUrl && (
+        <div className="min-h-[300px]">
+            {!fileLoaded && ckanResourceUrl && (
                 <div className="mb-4 p-3 border rounded bg-muted/50">
                     <p className="text-xs text-muted-foreground mb-2">
                         {t('ckan_resource_available')}
@@ -112,56 +120,86 @@ const RemoteData: React.FC<IRemoteDataProps> = ({ commonStore, ckanResourceUrl }
                 </div>
             )}
 
-            <div className="flex gap-2 mb-2">
-                <input
-                    ref={inputRef}
-                    id="remote-file-url"
-                    type="text"
-                    className="flex-grow p-2 border rounded text-sm"
-                    placeholder={t('url_placeholder')}
-                    disabled={downloading}
-                />
-                 <div className="w-32">
-                    <DropdownSelect
-                        className="w-full"
-                        options={charsetOptions}
-                        selectedKey={encoding}
-                        onSelect={(k) => setEncoding(k)}
-                        disable={downloading}
-                    />
-                </div>
-            </div>
-
-            {error && (
-                <div className="text-red-500 text-sm mb-2">
-                    {error}
-                </div>
-            )}
-
-            {downloading && (
-                <div className="mb-2">
-                    <div className="text-xs text-muted-foreground mb-1">
-                        {progress > 0 ? `${t('downloading')} ${progress}%` : t('downloading')}
-                    </div>
-                    <div className="h-2 w-full bg-secondary rounded overflow-hidden">
-                        <div
-                            className="h-full bg-primary transition-all duration-300"
-                            style={{ width: `${progress}%` }}
+            {!fileLoaded && (
+                <>
+                    <div className="flex gap-2 mb-2">
+                        <input
+                            ref={inputRef}
+                            id="remote-file-url"
+                            type="text"
+                            className="flex-grow p-2 border rounded text-sm"
+                            placeholder={t('url_placeholder')}
+                            disabled={downloading}
                         />
+                        <div className="w-32">
+                            <DropdownSelect
+                                className="w-full"
+                                options={charsetOptions}
+                                selectedKey={encoding}
+                                onSelect={(k) => setEncoding(k)}
+                                disable={downloading}
+                            />
+                        </div>
+                    </div>
+
+                    {error && (
+                        <div className="text-red-500 text-sm mb-2">
+                            {error}
+                        </div>
+                    )}
+
+                    {downloading && (
+                        <div className="mb-2">
+                            <div className="text-xs text-muted-foreground mb-1">
+                                {progress > 0 ? `${t('downloading')} ${progress}%` : t('downloading')}
+                            </div>
+                            <div className="h-2 w-full bg-secondary rounded overflow-hidden">
+                                <div
+                                    className="h-full bg-primary transition-all duration-300"
+                                    style={{ width: `${progress}%` }}
+                                />
+                            </div>
+                        </div>
+                    )}
+
+                    <Button
+                        className="my-1"
+                        disabled={downloading}
+                        onClick={() => {
+                            const url = inputRef.current?.value;
+                            if (url) downloadRemoteFile(url);
+                        }}
+                    >
+                        {downloading ? t('downloading') : t('download')}
+                    </Button>
+                </>
+            )}
+
+            {fileLoaded && (
+                <div className="mb-2 mt-6">
+                    <label className="block text-xs text-secondary-foreground mb-1 font-bold">{t('dataset_name')}</label>
+                    <div className="flex space-x-2">
+                        <Input
+                            type="text"
+                            placeholder={t('dataset_name')}
+                            value={tmpDSName}
+                            onChange={(e) => {
+                                commonStore.updateTempName(e.target.value);
+                            }}
+                            className="text-xs placeholder:italic w-36"
+                        />
+                        <Button
+                            disabled={tmpDataSource.length === 0}
+                            onClick={() => {
+                                onSubmitData();
+                            }}
+                        >
+                            {t('submit')}
+                        </Button>
                     </div>
                 </div>
             )}
-
-            <Button
-                className="my-1"
-                disabled={downloading}
-                onClick={() => {
-                    const url = inputRef.current?.value;
-                    if (url) downloadRemoteFile(url);
-                }}
-            >
-                {downloading ? t('downloading') : t('submit')}
-            </Button>
+            {fileLoaded && <Table commonStore={commonStore} />}
         </div>
     );
 };

@@ -175,6 +175,7 @@
             "create_data_source": "创建数据源",
             "data_types": "选择类型",
             "text_file_data": "导入文件",
+            "remote_file_data": "远程文件",
             "data_source_type": "数据源类型：{{sourceType}}",
             "file": {
                 "open": "打开文件...",
@@ -185,6 +186,19 @@
             },
             "public": {
                 "submit": "确认"
+            },
+            "remote": {
+                "submit": "确认",
+                "download": "下载",
+                "dataset_name": "数据集名称",
+                "url_placeholder": "在此输入文件URL",
+                "unsupported_format": "不支持的文件格式。请提供有效的CSV或JSON文件URL。",
+                "fetch_error": "获取数据失败（状态：{{status}}）。请检查URL并重试。",
+                "fetch_failed": "从提供的URL获取数据失败。请检查URL并重试。",
+                "file_too_large": "文件大小超过最大限制{{maxSize}}。请提供较小的文件。",
+                "ckan_resource_available": "CKAN资源可用",
+                "downloading": "下载中...",
+                "load_ckan_resource": "加载CKAN资源"
             }
         }
     },

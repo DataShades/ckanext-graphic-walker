@@ -59,8 +59,12 @@ const DataSourceSegment: React.FC<DSSegmentProps> = observer((props) => {
                     size="sm"
                     variant="outline"
                     onClick={async () => {
-                        const blob = await onSave();
-                        downloadBlob(blob, 'graphic-walker-notebook.json');
+                        try {
+                            const blob = await onSave();
+                            downloadBlob(blob, 'graphic-walker-notebook.json');
+                        } catch (error) {
+                            // do nothing, it's probably because there's no dataset selected
+                        }
                     }}
                 >
                     {t('DataSource.buttons.export_as_file')}

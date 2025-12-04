@@ -12,9 +12,10 @@ import Table from '../table';
 interface IRemoteDataProps {
     commonStore: CommonStore;
     ckanResourceUrl?: string;
+    maxFileSize?: number;
 }
 
-const RemoteData: React.FC<IRemoteDataProps> = ({ commonStore, ckanResourceUrl }) => {
+const RemoteData: React.FC<IRemoteDataProps> = ({ commonStore, ckanResourceUrl, maxFileSize }) => {
     const { tmpDSName, tmpDataSource, tmpDSRawFields } = commonStore;
     const inputRef = React.useRef<HTMLInputElement>(null);
     const { t } = useTranslation('translation', { keyPrefix: 'DataSource.dialog.remote' });
@@ -24,7 +25,8 @@ const RemoteData: React.FC<IRemoteDataProps> = ({ commonStore, ckanResourceUrl }
     const [progress, setProgress] = useState(0);
     const [error, setError] = useState<string | null>(null);
 
-    const MAX_SIZE = 10 * 1024 * 1024; // 10 MB
+    // Default to 10 MB if not specified
+    const MAX_SIZE = maxFileSize ?? (10 * 1024 * 1024);
 
     const fileLoaded = tmpDataSource.length > 0 && tmpDSRawFields.length > 0;
 
@@ -55,7 +57,8 @@ const RemoteData: React.FC<IRemoteDataProps> = ({ commonStore, ckanResourceUrl }
                     received += value.length;
                     if (received > MAX_SIZE) {
                         reader.cancel();
-                        throw new Error(t('file_too_large', { maxSize: '10 MB' }));
+                        const maxSizeMB = (MAX_SIZE / (1024 * 1024)).toFixed(0);
+                        throw new Error(t('file_too_large', { maxSize: `${maxSizeMB} MB` }));
                     }
                     chunks.push(value);
                     if (total > 0) {

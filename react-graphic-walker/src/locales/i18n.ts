@@ -3,8 +3,6 @@ import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
 import localeEnUs from './en-US.json';
-import localeJaJp from './ja-JP.json';
-import localeZhCn from './zh-CN.json';
 
 const locales: Resource & { 'en-US': any } = {
     'en': {
@@ -12,18 +10,6 @@ const locales: Resource & { 'en-US': any } = {
     },
     'en-US': {
         translation: localeEnUs,
-    },
-    'zh': {
-        translation: localeZhCn,
-    },
-    'zh-CN': {
-        translation: localeZhCn,
-    },
-    'ja': {
-        translation: localeJaJp,
-    },
-    'ja-JP': {
-        translation: localeJaJp,
     }
 } as const;
 

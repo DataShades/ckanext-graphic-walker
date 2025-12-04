@@ -179,8 +179,8 @@
         "dialog": {
             "create_data_source": "New Data Source",
             "data_types": "DataSource Type",
-            "text_file_data": "Local Files",
-            "remote_file_data": "Remote File",
+            "text_file_data": "Upload File",
+            "remote_file_data": "By URL",
             "data_source_type": "Data Source Type: {{sourceType}}",
             "file": {
                 "open": "Open...",

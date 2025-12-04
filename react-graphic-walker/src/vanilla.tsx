@@ -19,6 +19,7 @@ function FullGraphicWalker(props: IGWProps) {
             colorConfig={props.colorConfig}
             uiTheme={props.uiTheme}
             ckanResourceUrl={props.ckanResourceUrl}
+            maxFileSize={props.maxFileSize}
         >
             {(p) => {
                 return <GraphicWalker {...props} storeRef={p.storeRef} computation={p.computation} rawFields={p.meta} onMetaChange={p.onMetaChange} />;

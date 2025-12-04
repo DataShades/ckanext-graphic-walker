@@ -983,6 +983,8 @@ export type IGWProps = IAppI18nProps &
         storeRef?: React.RefObject<CommonStore | null>;
         keepAlive?: boolean | string;
         ckanResourceUrl?: string;
+        /** Maximum file size in bytes for remote file downloads. Default: 10MB (10 * 1024 * 1024) */
+        maxFileSize?: number;
         style?: React.CSSProperties;
     };
 

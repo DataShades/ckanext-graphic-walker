@@ -24,6 +24,7 @@ interface DSSegmentProps {
     onSave?: () => Promise<Blob>;
     onLoad?: (file: File) => void;
     ckanResourceUrl?: string;
+    maxFileSize?: number;
 }
 
 const DataSourceSegment: React.FC<DSSegmentProps> = observer((props) => {
@@ -88,7 +89,7 @@ const DataSourceSegment: React.FC<DSSegmentProps> = observer((props) => {
                     <DialogHeader>
                         <DialogTitle>{t('DataSource.dialog.create_data_source')}</DialogTitle>
                     </DialogHeader>
-                    <DataSelection commonStore={commonStore} ckanResourceUrl={props.ckanResourceUrl} />
+                    <DataSelection commonStore={commonStore} ckanResourceUrl={props.ckanResourceUrl} maxFileSize={props.maxFileSize} />
                 </DialogContent>
             </Dialog>
         </div>
@@ -122,6 +123,7 @@ export function DataSourceSegmentComponent(props: {
     colorConfig?: IUIThemeConfig;
     uiTheme?: IUIThemeConfig;
     ckanResourceUrl?: string;
+    maxFileSize?: number;
     children: (props: {
         meta: IMutField[];
         onMetaChange: (fid: string, meta: Partial<IMutField>) => void;
@@ -260,6 +262,7 @@ export function DataSourceSegmentComponent(props: {
                             onLoad={onLoad}
                             onSave={onSave}
                             ckanResourceUrl={props.ckanResourceUrl}
+                            maxFileSize={props.maxFileSize}
                         />
                         <div ref={setPortal} />
                     </div>

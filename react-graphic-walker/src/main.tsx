@@ -21,6 +21,8 @@ if (!import.meta.env.DEV) {
 
 const rootElement = document.getElementById('root') as HTMLElement;
 const ckanResourceUrl = rootElement?.getAttribute('data-url') || undefined;
+const maxFileSizeAttr = rootElement?.getAttribute('data-max-file-size');
+const maxFileSize = maxFileSizeAttr ? parseInt(maxFileSizeAttr, 10) : undefined;
 
 embedGraphicWalker(rootElement, {
     geoList: [
@@ -32,6 +34,7 @@ embedGraphicWalker(rootElement, {
         },
     ],
     ckanResourceUrl,
+    maxFileSize,
     style: {
         flex: 1,
         minHeight: 0

@@ -626,7 +626,6 @@ export const FilterOneOfRule: React.FC<RuleFormProps & { active: boolean }> = ({
                         <LoadingLayer />
                     </div>
                 )}
-                {/* <hr /> */}
                 {!loading && (
                     <Table ref={parentRef}>
                         {showLoadingList && rowVirtualizer.getTotalSize() === 0 && <LoadingLayer />}

@@ -36,19 +36,12 @@ const RemoteData: React.FC<IRemoteDataProps> = ({ commonStore, ckanResourceUrl }
         try {
             const response = await fetch(url);
 
-            if (!response.ok) {
-                throw new Error(t('fetch_error', { status: response.status }));
-            }
+            if (!response.ok) throw new Error(t('fetch_error', { status: response.status }));
 
             const contentLength = response.headers.get('content-length');
             const total = contentLength ? parseInt(contentLength, 10) : 0;
-
-            const contentType = response.headers.get('content-type') || '';
-            // Allow both CSV and JSON, though primarily checking for text/csv or application/json might be good.
-            // For now, let's stick to the previous check but maybe relax it or just warn?
-            // The previous code checked for 'text/csv'. Let's keep it simple for now but allow if it's not strictly rejected.
-
             const reader = response.body?.getReader();
+
             if (!reader) throw new Error(t('fetch_failed', { error: 'no_stream' }));
 
             let received = 0;
@@ -87,6 +80,10 @@ const RemoteData: React.FC<IRemoteDataProps> = ({ commonStore, ckanResourceUrl }
                 config: { type: 'reservoirSampling', size: Infinity },
                 encoding: encoding
             }) as any;
+
+            if (!data.length) {
+                throw new Error(t('fetch_failed'));
+            }
 
             // Only update temp data, don't commit yet (preview mode)
             commonStore.updateTempDS(data);

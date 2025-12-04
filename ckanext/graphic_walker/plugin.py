@@ -47,7 +47,7 @@ class GraphicWalkerPlugin(plugins.SingletonPlugin):
     def setup_template_variables(
         self, context: types.Context, data_dict: types.DataDict
     ) -> dict[str, str]:
-        data_dict["resource_view"].setdefault("title", "Mirumiru Viewer")
+        data_dict["resource_view"].setdefault("title", "Graphic Walker")
 
         file_url = data_dict["resource_view"].get("file_url", "")
         resource_url = data_dict["resource"]["url"]

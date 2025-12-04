@@ -161,15 +161,12 @@ export default function EditableTabs(props: EditableTabsProps) {
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
-            <Slider>
+            <Slider className='px-4'>
                 <nav className="-mb-px flex h-8" role="tablist" aria-label="Tabs">
                     {tabs.map((tab, tabIndex) => (
                         <span
                             role="tab"
                             tabIndex={0}
-                            // dangerouslySetInnerHTML={{
-                            //     __html: tab.label
-                            // }}
                             onClick={() => {
                                 onSelected(tab.key, tabIndex);
                             }}

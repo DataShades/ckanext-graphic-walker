@@ -2,6 +2,19 @@ import { inject } from '@vercel/analytics';
 import { embedGraphicWalker } from './vanilla';
 import './main.css';
 
+// Suppress defaultProps warning from @kanaries/react-beautiful-dnd
+// This is a library issue, not our code. Remove when library is updated.
+const originalConsoleError = console.error;
+console.error = (...args: any[]) => {
+    if (
+        typeof args[0] === 'string' &&
+        args[0].includes('Support for defaultProps will be removed')
+    ) {
+        return;
+    }
+    originalConsoleError.apply(console, args);
+};
+
 if (!import.meta.env.DEV) {
     inject();
 }

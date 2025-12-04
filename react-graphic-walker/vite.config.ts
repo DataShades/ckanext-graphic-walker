@@ -11,12 +11,12 @@ const modulesNotToBundle = Object.keys(peerDependencies);
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  server: {
-    port: 2002,
-  },
-  plugins: [
-    react(),
-            {
+    server: {
+        port: 2002,
+    },
+    plugins: [
+        react(),
+        {
             name: "move-files",
             closeBundle() {
                 const base = "../ckanext/graphic_walker";
@@ -34,30 +34,30 @@ export default defineConfig({
                 rmSync(resolve(base, "public/graphic-walker/assets"), { recursive: true, force: true });
             },
         },
-  ],
-  resolve: {
-    dedupe: modulesNotToBundle,
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
-    },
-  },
-  build: {
-    outDir: "../ckanext/graphic_walker/public/graphic-walker",
-    rollupOptions: {
-        input: "src/main.tsx",
-        external: [/index\.css$/],
-        output: {
-            format: "iife",
-            entryFileNames: "assets/js/graphic-walker.min.js",
-            chunkFileNames: "assets/js/graphic-walker.min.js",
-            assetFileNames: "[name].[ext]",
-            globals: {
-                react: "React",
-                "react-dom": "ReactDOM",
-                'styled-components': 'styled',
-                'react-dom/client': 'ReactDOMClient',
-            },
+    ],
+    resolve: {
+        dedupe: modulesNotToBundle,
+        alias: {
+            "@": path.resolve(__dirname, "./src"),
         },
+    },
+    build: {
+        outDir: "../ckanext/graphic_walker/public/graphic-walker",
+        rollupOptions: {
+            input: "src/main.tsx",
+            external: [/index\.css$/],
+            output: {
+                format: "iife",
+                entryFileNames: "assets/js/graphic-walker.min.js",
+                chunkFileNames: "assets/js/graphic-walker.min.js",
+                assetFileNames: "[name].[ext]",
+                globals: {
+                    react: "React",
+                    "react-dom": "ReactDOM",
+                    'styled-components': 'styled',
+                    'react-dom/client': 'ReactDOMClient',
+                },
+            },
+        }
     }
-  }
 })

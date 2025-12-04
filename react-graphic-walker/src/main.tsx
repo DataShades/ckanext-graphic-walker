@@ -26,15 +26,16 @@ const maxFileSize = maxFileSizeAttr ? parseInt(maxFileSizeAttr, 10) : undefined;
 
 embedGraphicWalker(rootElement, {
     geoList: [
-        { name: 'World Countries', type: 'GeoJSON', url: 'https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json' },
+        { name: 'World Countries', type: 'GeoJSON', url: 'https://raw.githubusercontent.com/mutantsan/world.geo.json/master/countries.geo.json' },
         {
             name: 'World Cities',
             type: 'GeoJSON',
-            url: 'https://raw.githubusercontent.com/drei01/geojson-world-cities/f2a988af4bc15463df55586afbbffbd3068b7218/cities.geojson',
+            url: 'https://raw.githubusercontent.com/mutantsan/geojson-world-cities/f2a988af4bc15463df55586afbbffbd3068b7218/cities.geojson',
         },
     ],
     ckanResourceUrl,
     maxFileSize,
+    appearance: 'light', // Force light mode. Options: 'light' | 'dark' | 'media' (auto-detect)
     style: {
         flex: 1,
         minHeight: 0

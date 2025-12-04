@@ -6,3 +6,16 @@ groups:
         description: Maximum file size for URL files
         default: 20971520 # 20MB
         editable: true
+        type: int
+
+      - key: ckanext.graphic_walker.proxy.timeout
+        description: Timeout in seconds to use on Resource Proxy requests.
+        default: 5
+        editable: true
+        type: int
+
+      - key: ckanext.graphic_walker.proxy.chunk_size
+        description: Chunk size in bytes to use on Resource Proxy requests.
+        default: 131072 # 128KB
+        editable: true
+        type: int

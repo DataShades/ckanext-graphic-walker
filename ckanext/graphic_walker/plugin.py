@@ -8,6 +8,7 @@ from ckanext.graphic_walker import const
 
 @toolkit.blanket.config_declarations
 @toolkit.blanket.helpers
+@toolkit.blanket.blueprints
 class GraphicWalkerPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.IResourceView)

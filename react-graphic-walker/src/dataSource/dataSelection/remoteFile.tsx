@@ -36,9 +36,17 @@ const RemoteData: React.FC<IRemoteDataProps> = ({ commonStore, ckanResourceUrl, 
         setError(null);
 
         try {
-            const response = await fetch(url);
+            let requestUrl = url;
+            if (url.startsWith('http://') || url.startsWith('https://')) {
+                requestUrl = `http://127.0.0.1:5000/mirumiru/proxy_view?url=${encodeURIComponent(url)}`;
+            }
 
-            if (!response.ok) throw new Error(t('fetch_error', { status: response.status }));
+            const response = await fetch(requestUrl);
+
+            if (!response.ok) {
+                const errorText = await response.text().catch(() => '');
+                throw new Error(errorText || t('fetch_error', { status: response.status }));
+            }
 
             const contentLength = response.headers.get('content-length');
             const total = contentLength ? parseInt(contentLength, 10) : 0;
@@ -65,6 +73,11 @@ const RemoteData: React.FC<IRemoteDataProps> = ({ commonStore, ckanResourceUrl, 
                         setProgress(Math.min(100, Math.round((received / total) * 100)));
                     }
                 }
+            }
+
+            // Check for incomplete download
+            if (total > 0 && received < total) {
+                throw new Error(t('fetch_failed', { error: 'Incomplete download' }));
             }
 
             // Merge chunks

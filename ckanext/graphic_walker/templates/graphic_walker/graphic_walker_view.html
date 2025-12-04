@@ -3,9 +3,10 @@
 {% block subtitle %}{% endblock %}
 
 {% block page %}
-    <div id="root" data-url="{{ resource_view.file_url or resource.url }}">
+    <div id="root"
+        data-url="{{ resource_view.file_url or resource.url }}"
+        data-max-file-size="{{ h.gw_get_url_file_max_size() }}">
     </div>
 
     {% asset 'graphic_walker/graphic_walker-js' %}
-    {% asset 'graphic_walker/graphic_walker-css' %}
 {% endblock %}

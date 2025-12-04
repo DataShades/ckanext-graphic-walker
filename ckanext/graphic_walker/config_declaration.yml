@@ -1,0 +1,8 @@
+version: 1
+groups:
+  - annotation: ckanext-graphic-walker
+    options:
+      - key: ckanext.graphic_walker.url_file_max_size
+        description: Maximum file size for URL files
+        default: 20971520 # 20MB
+        editable: true

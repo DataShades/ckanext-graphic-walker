@@ -6,6 +6,8 @@ from ckanext.graphic_walker.schema import get_preview_schema
 from ckanext.graphic_walker import const
 
 
+@toolkit.blanket.config_declarations
+@toolkit.blanket.helpers
 class GraphicWalkerPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.IResourceView)

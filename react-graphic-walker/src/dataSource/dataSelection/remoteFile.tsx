@@ -37,15 +37,15 @@ const RemoteData: React.FC<IRemoteDataProps> = ({ commonStore, ckanResourceUrl, 
 
         try {
             let requestUrl = url;
+
             if (url.startsWith('http://') || url.startsWith('https://')) {
-                requestUrl = `http://127.0.0.1:5000/mirumiru/proxy_view?url=${encodeURIComponent(url)}`;
+                requestUrl = `/gw/proxy_view?url=${encodeURIComponent(url)}`;
             }
 
             const response = await fetch(requestUrl);
 
             if (!response.ok) {
-                const errorText = await response.text().catch(() => '');
-                throw new Error(errorText || t('fetch_error', { status: response.status }));
+                throw new Error(t('fetch_error', { status: response.status }));
             }
 
             const contentLength = response.headers.get('content-length');

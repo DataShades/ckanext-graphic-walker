@@ -4,7 +4,7 @@
 
 {% block page %}
     <div id="root"
-        data-url="{{ resource_view.file_url or resource.url }}"
+        data-url="{{ resource_url }}"
         data-max-file-size="{{ h.gw_get_url_file_max_size() }}">
     </div>
 

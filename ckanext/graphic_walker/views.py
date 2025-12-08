@@ -16,7 +16,11 @@ graphic_walker = Blueprint("graphic_walker", __name__)
 
 
 def proxy_resource(url: str) -> Response:
-    log.info("Proxying resource: %s", url)
+    if tk.current_user.is_anonymous:
+        return tk.abort(401, tk._("Unauthorized access to proxy."))
+
+    log.debug("Proxying resource: %s", url)
+
     parts = urlsplit(url)
 
     if not parts.scheme or not parts.netloc:
@@ -35,7 +39,10 @@ def proxy_resource(url: str) -> Response:
     if range_header:
         headers["Range"] = range_header
 
-    headers["User-Agent"] = "CKAN-Mirumiru-Proxy"
+    headers["User-Agent"] = (
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"
+        " (KHTML, like Gecko) Chrome/94.0.4606.72 Safari/537.36"
+    )
 
     try:
         did_get = False
@@ -114,4 +121,4 @@ def proxy_view():
     return proxy_resource(url)
 
 
-graphic_walker.add_url_rule("/mirumiru/proxy_view", view_func=proxy_view)
+graphic_walker.add_url_rule("/gw/proxy_view", view_func=proxy_view)

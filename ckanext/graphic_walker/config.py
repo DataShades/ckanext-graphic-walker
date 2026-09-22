@@ -3,6 +3,7 @@ import ckan.plugins.toolkit as tk
 CONF_REMOTE_MAX_SIZE = "ckanext.graphic_walker.url_file_max_size"
 CONF_PROXY_TIMEOUT = "ckanext.graphic_walker.proxy.timeout"
 CONF_PROXY_CHUNK_SIZE = "ckanext.graphic_walker.proxy.chunk_size"
+CONF_PROXY_USER_AGENT = "ckanext.graphic_walker.proxy.user_agent"
 
 
 def get_url_file_max_size() -> int:
@@ -15,3 +16,7 @@ def get_proxy_timeout() -> int:
 
 def get_proxy_chunk_size() -> int:
     return tk.config[CONF_PROXY_CHUNK_SIZE]
+
+
+def get_proxy_user_agent() -> str:
+    return tk.config[CONF_PROXY_USER_AGENT]

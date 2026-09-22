@@ -19,3 +19,8 @@ groups:
         default: 131072 # 128KB
         editable: true
         type: int
+
+      - key: ckanext.graphic_walker.proxy.user_agent
+        description: User-Agent header to send on Resource Proxy requests.
+        default: "ckanext-graphic-walker/1.0"
+        editable: true

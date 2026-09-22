@@ -16,7 +16,11 @@ graphic_walker = Blueprint("graphic_walker", __name__)
 
 
 def proxy_resource(url: str) -> Response:
-    log.info("Proxying resource: %s", url)
+    if tk.current_user.is_anonymous:
+        return tk.abort(401, tk._("Unauthorized access to proxy."))
+
+    log.debug("Proxying resource: %s", url)
+
     parts = urlsplit(url)
 
     if not parts.scheme or not parts.netloc:
@@ -29,31 +33,17 @@ def proxy_resource(url: str) -> Response:
     proxy = tk.config.get("ckan.download_proxy")
     proxies = {"http": proxy, "https": proxy} if proxy else None
 
-    headers = {}
+    headers = {"User-Agent": config.get_proxy_user_agent()}
     range_header = tk.request.headers.get("Range")
 
     if range_header:
         headers["Range"] = range_header
 
-    headers["User-Agent"] = "CKAN-Mirumiru-Proxy"
-
     try:
-        did_get = False
-        r = requests.head(url, timeout=timeout, proxies=proxies, headers=headers)
-
-        # If HEAD fails with specific errors, try GET immediately
-        if r.status_code in (400, 403, 405):
-            r = requests.get(
-                url, timeout=timeout, stream=True, headers=headers, proxies=proxies
-            )
-            did_get = True
-
+        r = requests.get(
+            url, timeout=timeout, stream=True, headers=headers, proxies=proxies
+        )
         r.raise_for_status()
-
-        if not did_get:
-            r = requests.get(
-                url, timeout=timeout, stream=True, headers=headers, proxies=proxies
-            )
 
         content_type = r.headers.get("content-type")
         content_length = r.headers.get("content-length")
@@ -114,4 +104,4 @@ def proxy_view():
     return proxy_resource(url)
 
 
-graphic_walker.add_url_rule("/mirumiru/proxy_view", view_func=proxy_view)
+graphic_walker.add_url_rule("/gw/proxy_view", view_func=proxy_view)

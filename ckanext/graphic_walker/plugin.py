@@ -2,7 +2,6 @@ import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 from ckan import types
 
-from ckanext.graphic_walker.schema import get_preview_schema
 from ckanext.graphic_walker import const
 
 
@@ -30,7 +29,6 @@ class GraphicWalkerPlugin(plugins.SingletonPlugin):
             "iframed": True,
             "always_available": True,
             "default_title": "Graphic Walker Viewer",
-            "schema": get_preview_schema(),
         }
 
     def can_view(self, data_dict):
@@ -52,13 +50,10 @@ class GraphicWalkerPlugin(plugins.SingletonPlugin):
     ) -> dict[str, str]:
         data_dict["resource_view"].setdefault("title", "Graphic Walker")
 
-        file_url = data_dict["resource_view"].get("file_url", "")
-        resource_url = data_dict["resource"]["url"]
-
         data_dict.update(
             {
                 "resource_format": (data_dict["resource"].get("format") or "").lower(),
-                "resource_url": file_url or resource_url,
+                "resource_url": data_dict["resource"]["url"],
             }
         )
 

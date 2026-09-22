@@ -38,7 +38,7 @@ const RemoteData: React.FC<IRemoteDataProps> = ({ commonStore, ckanResourceUrl, 
         try {
             let requestUrl = url;
             if (url.startsWith('http://') || url.startsWith('https://')) {
-                requestUrl = `http://127.0.0.1:5000/gw/proxy_view?url=${encodeURIComponent(url)}`;
+                requestUrl = `/gw/proxy_view?url=${encodeURIComponent(url)}`;
             }
 
             const response = await fetch(requestUrl);
